@@ -41,6 +41,16 @@ class _AuthScreensState extends State<AuthScreens> {
       name: _nameController.text.toString(),
       context: context,
     );
+    // _signUpFormKey.currentState!.reset();
+  }
+
+  void signInUser() {
+    authService.signInUser(
+      email: _emailController.text.toString(),
+      password: _passwordController.text.toString(),
+      context: context,
+    );
+    // _signInFormKey.currentState!.reset();
   }
 
   @override
@@ -171,7 +181,11 @@ class _AuthScreensState extends State<AuthScreens> {
                       ),
                       CustomButton(
                         text: 'Sign In',
-                        onTap: () {},
+                        onTap: () {
+                          if (_signInFormKey.currentState!.validate()) {
+                            signInUser();
+                          }
+                        },
                       )
                     ],
                   ),

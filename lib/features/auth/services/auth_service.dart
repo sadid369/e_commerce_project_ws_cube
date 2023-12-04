@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:e_commerce_project_ws_cube/constants/error_handaling.dart';
 import 'package:e_commerce_project_ws_cube/constants/global_variables.dart';
 import 'package:e_commerce_project_ws_cube/constants/utils.dart';
@@ -39,6 +41,37 @@ class AuthService {
           showMySnackBar(
               context: context,
               text: 'Account created, Login with the same credentials');
+        },
+      );
+    } catch (e) {
+      showMySnackBar(context: context, text: e.toString());
+    }
+  }
+
+  void signInUser({
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
+    try {
+      http.Response res = await http.post(
+        Uri.parse("${uri}/api/signin"),
+        body: jsonEncode({
+          'email': email,
+          "password": password,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          print(jsonDecode(res.body)['token']);
+          print(jsonDecode(res.body));
+
+          showMySnackBar(context: context, text: 'Successfully Logged In');
         },
       );
     } catch (e) {
