@@ -25,7 +25,12 @@ class CustomTextfield extends StatelessWidget {
           color: Colors.black38,
         )),
       ),
-      validator: (value) {},
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Enter your $hinText";
+        }
+        return null;
+      },
     );
   }
 }

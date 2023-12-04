@@ -1,6 +1,7 @@
 import 'package:e_commerce_project_ws_cube/common/widgets/custom_button.dart';
 import 'package:e_commerce_project_ws_cube/common/widgets/custom_textfield.dart';
 import 'package:e_commerce_project_ws_cube/constants/global_variables.dart';
+import 'package:e_commerce_project_ws_cube/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 enum Auth {
@@ -20,15 +21,26 @@ class _AuthScreensState extends State<AuthScreens> {
   Auth _auth = Auth.signup;
   final _signUpFormKey = GlobalKey<FormState>();
   final _signInFormKey = GlobalKey<FormState>();
+  final AuthService authService = AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _nameController.dispose();
+  }
+
+  void signUpUser() {
+    authService.signUpUser(
+      email: _emailController.text.toString(),
+      password: _passwordController.text.toString(),
+      name: _nameController.text.toString(),
+      context: context,
+    );
   }
 
   @override
@@ -102,7 +114,11 @@ class _AuthScreensState extends State<AuthScreens> {
                       ),
                       CustomButton(
                         text: 'Sign Up',
-                        onTap: () {},
+                        onTap: () {
+                          if (_signUpFormKey.currentState!.validate()) {
+                            signUpUser();
+                          }
+                        },
                       )
                     ],
                   ),
