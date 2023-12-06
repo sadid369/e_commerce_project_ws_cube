@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:e_commerce_project_ws_cube/common/widgets/bottom_bar.dart';
 import 'package:e_commerce_project_ws_cube/constants/error_handaling.dart';
 import 'package:e_commerce_project_ws_cube/constants/global_variables.dart';
 import 'package:e_commerce_project_ws_cube/constants/utils.dart';
@@ -80,7 +81,7 @@ class AuthService {
           print("Before Navigator.pushNamedAndRemoveUntil: ${token}");
           Navigator.pushNamedAndRemoveUntil(
             context,
-            HomeScreens.routeName,
+            BottomBar.routeName,
             (route) => false,
           );
           //

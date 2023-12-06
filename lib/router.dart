@@ -1,3 +1,4 @@
+import 'package:e_commerce_project_ws_cube/common/widgets/bottom_bar.dart';
 import 'package:e_commerce_project_ws_cube/features/auth/screens/auth_screens.dart';
 import 'package:e_commerce_project_ws_cube/features/home/screens/home_screens.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (context) => const HomeScreens(),
+      );
+    case BottomBar.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (context) => const BottomBar(),
       );
     default:
       return MaterialPageRoute(

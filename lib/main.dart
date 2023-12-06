@@ -1,3 +1,4 @@
+import 'package:e_commerce_project_ws_cube/common/widgets/bottom_bar.dart';
 import 'package:e_commerce_project_ws_cube/constants/global_variables.dart';
 import 'package:e_commerce_project_ws_cube/features/auth/screens/auth_screens.dart';
 import 'package:e_commerce_project_ws_cube/features/auth/services/auth_service.dart';
@@ -54,7 +55,7 @@ class _MyAppState extends State<MyApp> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 return context.watch<UserProvider>().user.token.isNotEmpty
-                    ? const HomeScreens()
+                    ? const BottomBar()
                     : const AuthScreens();
               }
               return const Scaffold(
