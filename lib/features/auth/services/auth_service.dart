@@ -74,7 +74,10 @@ class AuthService {
         onSuccess: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           context.read<UserProvider>().setUser(res.body);
+          print(jsonDecode(res.body)['token']);
           await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
+          var token = prefs.getString('x-auth-token');
+          print("Before Navigator.pushNamedAndRemoveUntil: ${token}");
           Navigator.pushNamedAndRemoveUntil(
             context,
             HomeScreens.routeName,
@@ -93,16 +96,18 @@ class AuthService {
     }
   }
 
-  void getUserData({
+  Future<void> getUserData({
     required BuildContext context,
   }) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('x-auth-token');
-      if (token == null) {
+
+      if (token == null || token.isEmpty) {
         prefs.setString('x-auth-token', "");
       }
-      http.Response tokenRes = await http.post(
+
+      var tokenRes = await http.post(
         Uri.parse('$uri/tokenIsValid'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -111,37 +116,16 @@ class AuthService {
       );
 
       var response = jsonDecode(tokenRes.body);
-      if (response == true) {}
-      // http.Response res = await http.post(
-      //   Uri.parse("${uri}/api/signin"),
-      //   body: jsonEncode({
-      //     'email': email,
-      //     "password": password,
-      //   }),
-      //   headers: <String, String>{
-      //     'Content-Type': 'application/json; charset=UTF-8',
-      //   },
-      // );
-      // httpErrorHandle(
-      //   response: res,
-      //   context: context,
-      //   onSuccess: () async {
-      //     SharedPreferences prefs = await SharedPreferences.getInstance();
-      //     context.read<UserProvider>().setUser(res.body);
-      //     await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
-      //     Navigator.pushNamedAndRemoveUntil(
-      //       context,
-      //       HomeScreens.routeName,
-      //       (route) => false,
-      //     );
-      //     //
-      //     //
-      //     print(jsonDecode(res.body)['token']);
-      //     print(jsonDecode(res.body));
-
-      //     showMySnackBar(context: context, text: 'Successfully Logged In');
-      //   },
-      // );
+      if (response == true) {
+        http.Response userRes = await http.get(
+          Uri.parse('$uri/'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': token,
+          },
+        );
+        context.read<UserProvider>().setUser(userRes.body);
+      }
     } catch (e) {
       showMySnackBar(context: context, text: e.toString());
     }

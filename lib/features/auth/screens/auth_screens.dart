@@ -50,11 +50,13 @@ class _AuthScreensState extends State<AuthScreens> {
       password: _passwordController.text.toString(),
       context: context,
     );
+
     // _signInFormKey.currentState!.reset();
   }
 
   @override
   Widget build(BuildContext context) {
+    authService.getUserData(context: context);
     return Scaffold(
       backgroundColor: GlobalVariables.greyBackgroundCOlor,
       body: SafeArea(
