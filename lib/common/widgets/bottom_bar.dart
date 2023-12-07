@@ -1,4 +1,5 @@
 import 'package:e_commerce_project_ws_cube/constants/global_variables.dart';
+import 'package:e_commerce_project_ws_cube/features/account/screens/account_screen.dart';
 import 'package:e_commerce_project_ws_cube/features/home/screens/home_screens.dart';
 import 'package:flutter/material.dart';
 
@@ -16,9 +17,7 @@ class _BottomBarState extends State<BottomBar> {
   double bottomBarBorderWidth = 5;
   List<Widget> pages = [
     const HomeScreens(),
-    const Center(
-      child: Text('Account Page'),
-    ),
+    const AccountScreen(),
     const Center(
       child: Text('Cart Page'),
     ),
