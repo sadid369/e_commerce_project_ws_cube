@@ -1,27 +1,32 @@
+import 'package:badges/badges.dart';
 import 'package:e_commerce_project_ws_cube/constants/global_variables.dart';
 import 'package:e_commerce_project_ws_cube/features/account/screens/account_screen.dart';
-import 'package:e_commerce_project_ws_cube/features/home/screens/home_screens.dart';
+import 'package:e_commerce_project_ws_cube/features/cart/screens/cart_screen.dart';
+import 'package:e_commerce_project_ws_cube/features/home/screens/home_screen.dart';
+import 'package:e_commerce_project_ws_cube/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:badges/badges.dart' as badges;
 
 class BottomBar extends StatefulWidget {
   static const String routeName = '/actual-home';
   const BottomBar({Key? key}) : super(key: key);
 
   @override
-  _BottomBarState createState() => _BottomBarState();
+  State<BottomBar> createState() => _BottomBarState();
 }
 
 class _BottomBarState extends State<BottomBar> {
   int _page = 0;
   double bottomBarWidth = 42;
   double bottomBarBorderWidth = 5;
+
   List<Widget> pages = [
-    const HomeScreens(),
+    const HomeScreen(),
     const AccountScreen(),
-    const Center(
-      child: Text('Cart Page'),
-    ),
+    const CartScreen(),
   ];
+
   void updatePage(int page) {
     setState(() {
       _page = page;
@@ -30,6 +35,8 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
+    final userCartLen = context.watch<UserProvider>().user.cart.length;
+
     return Scaffold(
       body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
@@ -40,7 +47,7 @@ class _BottomBarState extends State<BottomBar> {
         iconSize: 28,
         onTap: updatePage,
         items: [
-          //HOME
+          // HOME
           BottomNavigationBarItem(
             icon: Container(
               width: bottomBarWidth,
@@ -54,13 +61,13 @@ class _BottomBarState extends State<BottomBar> {
                   ),
                 ),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.home_outlined,
               ),
             ),
             label: '',
           ),
-          //ACCOUNT
+          // ACCOUNT
           BottomNavigationBarItem(
             icon: Container(
               width: bottomBarWidth,
@@ -74,13 +81,13 @@ class _BottomBarState extends State<BottomBar> {
                   ),
                 ),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.person_outline_outlined,
               ),
             ),
             label: '',
           ),
-          //CART
+          // CART
           BottomNavigationBarItem(
             icon: Container(
               width: bottomBarWidth,
@@ -94,12 +101,11 @@ class _BottomBarState extends State<BottomBar> {
                   ),
                 ),
               ),
-              child: Badge(
-                label: Text(
-                  '2',
-                ),
-                backgroundColor: GlobalVariables.secondaryColor,
-                child: Icon(
+              child: badges.Badge(
+                badgeContent: Text(userCartLen.toString()),
+                badgeStyle: const BadgeStyle(
+                    badgeColor: GlobalVariables.secondaryColor),
+                child: const Icon(
                   Icons.shopping_cart_outlined,
                 ),
               ),

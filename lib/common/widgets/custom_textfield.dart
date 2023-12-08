@@ -1,13 +1,14 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-class CustomTextfield extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
-  final String hinText;
-  const CustomTextfield({
+  final String hintText;
+  final int maxLines;
+  const CustomTextField({
     Key? key,
     required this.controller,
-    required this.hinText,
+    required this.hintText,
+    this.maxLines = 1,
   }) : super(key: key);
 
   @override
@@ -15,22 +16,22 @@ class CustomTextfield extends StatelessWidget {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
-        hintText: hinText,
-        border: const OutlineInputBorder(
-            borderSide: BorderSide(
-          color: Colors.black38,
-        )),
-        enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-          color: Colors.black38,
-        )),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return "Enter your $hinText";
+          hintText: hintText,
+          border: const OutlineInputBorder(
+              borderSide: BorderSide(
+            color: Colors.black38,
+          )),
+          enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+            color: Colors.black38,
+          ))),
+      validator: (val) {
+        if (val == null || val.isEmpty) {
+          return 'Enter your $hintText';
         }
         return null;
       },
+      maxLines: maxLines,
     );
   }
 }

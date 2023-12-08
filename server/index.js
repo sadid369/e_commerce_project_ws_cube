@@ -1,17 +1,35 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const app = express()
-const authRouter = require('./routes/auth')
-require('dotenv').config()
-const port = process.env.PORT || 5000
+// IMPORTS FROM PACKAGES
+const express = require("express");
+const mongoose = require("mongoose");
+const adminRouter = require("./routes/admin");
+// IMPORTS FROM OTHER FILES
+const authRouter = require("./routes/auth");
+const productRouter = require("./routes/product");
+const userRouter = require("./routes/user");
 
-app.use(express.json())
-app.use(authRouter)
+// INIT
+const PORT = 3000;
+const app = express();
+const DB =
+  "mongodb+srv://sadid:123457abc@cluster0.wtek8ov.mongodb.net/e-commerce-project-wscube?retryWrites=true&w=majority";
 
-mongoose.connect(process.env.DB).then(()=>{
-    console.log('Connection Successful');
-}).catch((e)=>{
+// middleware
+app.use(express.json());
+app.use(authRouter);
+app.use(adminRouter);
+app.use(productRouter);
+app.use(userRouter);
+
+// Connections
+mongoose
+  .connect(DB)
+  .then(() => {
+    console.log("Connection Successful");
+  })
+  .catch((e) => {
     console.log(e);
-})
+  });
 
-app.listen(port ,"0.0.0.0", ()=> console.log(`> Server is up and running on port :   ${port}`))
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`connected at port ${PORT}`);
+});

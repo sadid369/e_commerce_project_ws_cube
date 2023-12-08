@@ -1,11 +1,11 @@
 import 'dart:convert';
 
+
 import 'package:e_commerce_project_ws_cube/common/widgets/bottom_bar.dart';
 import 'package:e_commerce_project_ws_cube/constants/error_handaling.dart';
 import 'package:e_commerce_project_ws_cube/constants/global_variables.dart';
 import 'package:e_commerce_project_ws_cube/constants/utils.dart';
-import 'package:e_commerce_project_ws_cube/features/home/screens/home_screens.dart';
-import 'package:e_commerce_project_ws_cube/model/user.dart';
+import 'package:e_commerce_project_ws_cube/models/user.dart';
 import 'package:e_commerce_project_ws_cube/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -13,57 +13,60 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  //sign up user
-
+  // sign up user
   void signUpUser({
+    required BuildContext context,
     required String email,
     required String password,
     required String name,
-    required BuildContext context,
   }) async {
     try {
       User user = User(
-        id: "",
+        id: '',
         name: name,
-        email: email,
         password: password,
-        address: "",
-        type: "",
-        token: "",
+        email: email,
+        address: '',
+        type: '',
+        token: '',
+        cart: [],
       );
 
       http.Response res = await http.post(
-        Uri.parse("${uri}/api/signup"),
+        Uri.parse('$uri/api/signup'),
         body: user.toJson(),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
+
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () {
-          showMySnackBar(
-              context: context,
-              text: 'Account created, Login with the same credentials');
+          showSnackBar(
+            context,
+            'Account created! Login with the same credentials!',
+          );
         },
       );
     } catch (e) {
-      showMySnackBar(context: context, text: e.toString());
+      showSnackBar(context, e.toString());
     }
   }
 
+  // sign in user
   void signInUser({
+    required BuildContext context,
     required String email,
     required String password,
-    required BuildContext context,
   }) async {
     try {
       http.Response res = await http.post(
-        Uri.parse("${uri}/api/signin"),
+        Uri.parse('$uri/api/signin'),
         body: jsonEncode({
           'email': email,
-          "password": password,
+          'password': password,
         }),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -74,61 +77,56 @@ class AuthService {
         context: context,
         onSuccess: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          context.read<UserProvider>().setUser(res.body);
-          print(jsonDecode(res.body)['token']);
+          Provider.of<UserProvider>(context, listen: false).setUser(res.body);
           await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
-          var token = prefs.getString('x-auth-token');
-          print("Before Navigator.pushNamedAndRemoveUntil: ${token}");
           Navigator.pushNamedAndRemoveUntil(
             context,
             BottomBar.routeName,
             (route) => false,
           );
-          //
-          //
-          print(jsonDecode(res.body)['token']);
-          print(jsonDecode(res.body));
-
-          showMySnackBar(context: context, text: 'Successfully Logged In');
         },
       );
     } catch (e) {
-      showMySnackBar(context: context, text: e.toString());
+      showSnackBar(context, e.toString());
     }
   }
 
-  Future<void> getUserData({
-    required BuildContext context,
-  }) async {
+  // get user data
+  void getUserData(
+    BuildContext context,
+  ) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('x-auth-token');
 
-      if (token == null || token.isEmpty) {
-        prefs.setString('x-auth-token', "");
+      if (token == null) {
+        prefs.setString('x-auth-token', '');
       }
 
       var tokenRes = await http.post(
         Uri.parse('$uri/tokenIsValid'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'x-auth-token': token!,
+          'x-auth-token': token!
         },
       );
 
       var response = jsonDecode(tokenRes.body);
+
       if (response == true) {
         http.Response userRes = await http.get(
           Uri.parse('$uri/'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
-            'x-auth-token': token,
+            'x-auth-token': token
           },
         );
-        context.read<UserProvider>().setUser(userRes.body);
+
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.setUser(userRes.body);
       }
     } catch (e) {
-      showMySnackBar(context: context, text: e.toString());
+      showSnackBar(context, e.toString());
     }
   }
 }
