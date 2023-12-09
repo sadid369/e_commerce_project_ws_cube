@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AccountServices {
+class AccountServices extends ChangeNotifier {
   Future<List<Order>> fetchMyOrders({
     required BuildContext context,
   }) async {

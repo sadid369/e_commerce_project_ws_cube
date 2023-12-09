@@ -1,3 +1,4 @@
+import 'package:e_commerce_project_ws_cube/features/account/services/account_services.dart';
 import 'package:e_commerce_project_ws_cube/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,16 +40,23 @@ class AddressBox extends StatelessWidget {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(
-              left: 5,
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 20,
               top: 2,
             ),
-            child: Icon(
-              Icons.arrow_drop_down_outlined,
-              size: 18,
-            ),
-          )
+            child: IconButton(
+                onPressed: () {
+                  context.read<AccountServices>().logOut(context);
+                },
+                icon: const Icon(
+                  Icons.logout_outlined,
+                  size: 18,
+                )),
+          ),
+          SizedBox(
+            width: 10,
+          ),
         ],
       ),
     );

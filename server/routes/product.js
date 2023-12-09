@@ -11,6 +11,14 @@ productRouter.get("/api/products/", auth, async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
+productRouter.get("/api/products/all", auth, async (req, res) => {
+  try {
+    const products = await Product.find({});
+    res.json(products);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 
 // create a get request to search products and get them
 // /api/products/search/i

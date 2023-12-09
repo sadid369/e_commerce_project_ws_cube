@@ -1,8 +1,10 @@
 import 'package:e_commerce_project_ws_cube/constants/global_variables.dart';
+import 'package:e_commerce_project_ws_cube/features/account/services/account_services.dart';
 import 'package:e_commerce_project_ws_cube/features/admin/screens/analtyics_screen.dart';
 import 'package:e_commerce_project_ws_cube/features/admin/screens/orders_screen.dart';
 import 'package:e_commerce_project_ws_cube/features/admin/screens/posts_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AdminScreen extends StatefulWidget {
   const AdminScreen({Key? key}) : super(key: key);
@@ -45,18 +47,32 @@ class _AdminScreenState extends State<AdminScreen> {
               Container(
                 alignment: Alignment.topLeft,
                 child: Image.asset(
-                  'assets/images/amazon_in.png',
+                  'assets/images/sadid_shop.png',
                   width: 120,
                   height: 45,
                   color: Colors.black,
                 ),
               ),
-              const Text(
-                'Admin',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                children: [
+                  const Text(
+                    'Admin',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        context.read<AccountServices>().logOut(context);
+                      },
+                      icon: Icon(
+                        Icons.logout_outlined,
+                      ))
+                ],
               )
             ],
           ),

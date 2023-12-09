@@ -3,6 +3,7 @@ import 'package:e_commerce_project_ws_cube/features/home/widgets/address_box.dar
 import 'package:e_commerce_project_ws_cube/features/home/widgets/carousel_image.dart';
 import 'package:e_commerce_project_ws_cube/features/home/widgets/deal_of_day.dart';
 import 'package:e_commerce_project_ws_cube/features/home/widgets/top_categories.dart';
+import 'package:e_commerce_project_ws_cube/features/product_details/screens/all_products.dart';
 import 'package:e_commerce_project_ws_cube/features/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -74,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: 1,
                           ),
                         ),
-                        hintText: 'Search Amazon.in',
+                        hintText: 'Search Product',
                         hintStyle: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 17,
@@ -104,6 +105,14 @@ class _HomeScreenState extends State<HomeScreen> {
             CarouselImage(),
             DealOfDay(),
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, AllProducts.routeName);
+        },
+        child: const Icon(
+          Icons.navigate_next,
         ),
       ),
     );

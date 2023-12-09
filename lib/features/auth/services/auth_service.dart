@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import 'package:e_commerce_project_ws_cube/common/widgets/bottom_bar.dart';
 import 'package:e_commerce_project_ws_cube/constants/error_handaling.dart';
 import 'package:e_commerce_project_ws_cube/constants/global_variables.dart';
@@ -12,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthService {
+class AuthService extends ChangeNotifier {
   // sign up user
   void signUpUser({
     required BuildContext context,
@@ -92,7 +91,7 @@ class AuthService {
   }
 
   // get user data
-  void getUserData(
+  Future<void> getUserData(
     BuildContext context,
   ) async {
     try {
