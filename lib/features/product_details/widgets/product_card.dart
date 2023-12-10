@@ -1,3 +1,4 @@
+import 'package:e_commerce_project_ws_cube/constants/global_variables.dart';
 import 'package:e_commerce_project_ws_cube/features/product_details/services/product_details_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,12 +52,12 @@ class ProductCard extends StatelessWidget {
                   '\$${price.toStringAsFixed(2)}',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.green,
+                    color: GlobalVariables.selectedNavBarColor,
                   ),
                 ),
                 IconButton(
                   icon: Icon(Icons.shopping_cart),
-                  color: Colors.blue,
+                  color: GlobalVariables.secondaryColor,
                   onPressed: onBuy,
                 ),
               ],

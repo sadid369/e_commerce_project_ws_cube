@@ -2,6 +2,7 @@ import 'package:e_commerce_project_ws_cube/common/widgets/bottom_bar.dart';
 import 'package:e_commerce_project_ws_cube/features/address/screens/address_screen.dart';
 import 'package:e_commerce_project_ws_cube/features/admin/screens/add_product_screen.dart';
 import 'package:e_commerce_project_ws_cube/features/auth/screens/auth_screen.dart';
+import 'package:e_commerce_project_ws_cube/features/cart/screens/cart_screen.dart';
 import 'package:e_commerce_project_ws_cube/features/home/screens/category_deals_screen.dart';
 import 'package:e_commerce_project_ws_cube/features/home/screens/home_screen.dart';
 import 'package:e_commerce_project_ws_cube/features/order_details/screens/order_details.dart';
@@ -78,6 +79,8 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       );
     case AllProducts.routeName:
       return MaterialPageRoute(builder: (_) => const AllProducts());
+    case CartScreen.routeName:
+      return MaterialPageRoute(builder: (_) => const CartScreen());
     default:
       return MaterialPageRoute(
         settings: routeSettings,

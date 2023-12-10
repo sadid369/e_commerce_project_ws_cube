@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerce_project_ws_cube/common/widgets/custom_button.dart';
 import 'package:e_commerce_project_ws_cube/common/widgets/stars.dart';
 import 'package:e_commerce_project_ws_cube/constants/global_variables.dart';
+import 'package:e_commerce_project_ws_cube/features/cart/screens/cart_screen.dart';
 import 'package:e_commerce_project_ws_cube/features/product_details/services/product_details_services.dart';
 import 'package:e_commerce_project_ws_cube/features/search/screens/search_screen.dart';
 import 'package:e_commerce_project_ws_cube/models/product.dart';
@@ -122,11 +123,26 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                 ),
               ),
-              Container(
-                color: Colors.transparent,
-                height: 42,
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: const Icon(Icons.mic, color: Colors.black, size: 25),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, CartScreen.routeName);
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  height: 42,
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Badge(
+                    backgroundColor: GlobalVariables.secondaryColor,
+                    label: Consumer<UserProvider>(builder: (context, data, _) {
+                      return Text(data.user.cart.length.toString());
+                    }),
+                    child: Icon(
+                      Icons.shopping_cart_outlined,
+                      color: Colors.black,
+                      size: 25,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

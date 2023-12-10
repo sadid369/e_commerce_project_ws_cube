@@ -1,11 +1,14 @@
 import 'package:e_commerce_project_ws_cube/constants/global_variables.dart';
+import 'package:e_commerce_project_ws_cube/features/cart/screens/cart_screen.dart';
 import 'package:e_commerce_project_ws_cube/features/home/widgets/address_box.dart';
 import 'package:e_commerce_project_ws_cube/features/home/widgets/carousel_image.dart';
 import 'package:e_commerce_project_ws_cube/features/home/widgets/deal_of_day.dart';
 import 'package:e_commerce_project_ws_cube/features/home/widgets/top_categories.dart';
 import 'package:e_commerce_project_ws_cube/features/product_details/screens/all_products.dart';
 import 'package:e_commerce_project_ws_cube/features/search/screens/search_screen.dart';
+import 'package:e_commerce_project_ws_cube/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
@@ -85,11 +88,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              Container(
-                color: Colors.transparent,
-                height: 42,
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: const Icon(Icons.mic, color: Colors.black, size: 25),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, CartScreen.routeName);
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  height: 42,
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Badge(
+                    backgroundColor: GlobalVariables.secondaryColor,
+                    label: Consumer<UserProvider>(builder: (context, data, _) {
+                      return Text(data.user.cart.length.toString());
+                    }),
+                    child: Icon(
+                      Icons.shopping_cart_outlined,
+                      color: Colors.black,
+                      size: 25,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

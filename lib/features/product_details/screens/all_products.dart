@@ -1,9 +1,11 @@
 import 'package:e_commerce_project_ws_cube/constants/global_variables.dart';
+import 'package:e_commerce_project_ws_cube/features/cart/screens/cart_screen.dart';
 import 'package:e_commerce_project_ws_cube/features/product_details/screens/product_details_screen.dart';
 import 'package:e_commerce_project_ws_cube/features/product_details/services/product_details_services.dart';
 import 'package:e_commerce_project_ws_cube/features/product_details/widgets/product_card.dart';
 import 'package:e_commerce_project_ws_cube/features/search/screens/search_screen.dart';
 import 'package:e_commerce_project_ws_cube/models/product.dart';
+import 'package:e_commerce_project_ws_cube/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +28,7 @@ class _AllProductsState extends State<AllProducts> {
 
   @override
   Widget build(BuildContext context) {
+    // final userCartLen = context.watch<UserProvider>().user.cart.length;
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60),
@@ -89,11 +92,27 @@ class _AllProductsState extends State<AllProducts> {
                     ),
                   ),
                 ),
-                Container(
-                  color: Colors.transparent,
-                  height: 42,
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: const Icon(Icons.mic, color: Colors.black, size: 25),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, CartScreen.routeName);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    height: 42,
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Badge(
+                      backgroundColor: GlobalVariables.secondaryColor,
+                      label:
+                          Consumer<UserProvider>(builder: (context, data, _) {
+                        return Text(data.user.cart.length.toString());
+                      }),
+                      child: Icon(
+                        Icons.shopping_cart_outlined,
+                        color: Colors.black,
+                        size: 25,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
